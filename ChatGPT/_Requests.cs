@@ -11,10 +11,10 @@ namespace _GPT_
         [Serializable]
         public class OpenAIRequest
         {
-            public string model = "gpt-4-turbo";
+            public string model = "gpt-3.5-turbo";
             public Message[] messages;
-            public int max_tokens = 100;
-            public float temperature = 0.7f;
+            public int max_tokens = 4096;
+            public float temperature = 1;
 
             [Serializable]
             public class Message
