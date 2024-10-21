@@ -7,6 +7,12 @@ namespace _GPT_
     {
         public static ChatGPT instance;
 
+        static readonly string[] cmdKeys = new string[]
+        {
+            "GPT",
+            "ChatGPT",
+        };
+
         //--------------------------------------------------------------------------------------------------------------
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -28,13 +34,14 @@ namespace _GPT_
 
         private void Start()
         {
-            Commands.AddCommandKeys(OnCmd, "GPT", "ChatGPT");
+            Commands.AddCommandKeys(OnCmd, cmdKeys);
         }
 
         //--------------------------------------------------------------------------------------------------------------
 
         private void OnDestroy()
         {
+            Commands.RemoveCommand(OnCmd);
             if (this == instance)
                 instance = null;
         }

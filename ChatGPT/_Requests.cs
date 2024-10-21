@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Text;
 using UnityEngine;
@@ -12,7 +11,7 @@ namespace _GPT_
         [Serializable]
         public class OpenAIRequest
         {
-            public string model = "gpt-3.5-turbo";
+            public string model = "gpt-4-turbo";
             public Message[] messages;
             public int max_tokens = 100;
             public float temperature = 0.7f;
@@ -65,34 +64,34 @@ namespace _GPT_
                     },
                 }
             };
-            string jsonString = JsonConvert.SerializeObject(openAIRequest);
 
-            // Créer une requête HTTP POST
+            string jsonString = JsonUtility.ToJson(openAIRequest, true);
+
             using UnityWebRequest request = new("https://api.openai.com/v1/chat/completions", "POST")
             {
                 uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonString)),
                 downloadHandler = new DownloadHandlerBuffer()
             };
 
-            // Ajouter les en-têtes (clé API et type de contenu)
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Authorization", "Bearer " + apiKey);
 
-            // Envoyer la requête
             UnityWebRequestAsyncOperation sending = request.SendWebRequest();
             while (!sending.isDone)
                 yield return null;
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                // Récupérer la réponse
                 string responseText = request.downloadHandler.text;
-                OpenAIResponse openAIResponse = JsonConvert.DeserializeObject<OpenAIResponse>(responseText);
+                OpenAIResponse openAIResponse = JsonUtility.FromJson<OpenAIResponse>(responseText);
 
                 if (openAIResponse != null)
                     Debug.Log(openAIResponse.choices[0].message.content);
                 else
-                    Debug.LogWarning($"Erreur de désérialisation de la réponse de l'IA: \n{responseText}");
+                {
+                    Debug.LogWarning("Erreur de désérialisation de la réponse de l'IA:");
+                    Debug.Log(responseText);
+                }
             }
             else
                 Debug.LogWarning($"Error: \"{request.error}\"");

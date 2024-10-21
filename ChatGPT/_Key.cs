@@ -5,7 +5,8 @@ namespace _GPT_
 {
     partial class ChatGPT
     {
-        static string KeyPath => Path.Combine(Path.Combine(Util.home_path, nameof(_GPT_)).GetDir().FullName, "APIKEY" + JSon.txt);
+        public static string GPT_homedir => Path.Combine(Util.home_path, nameof(_GPT_)).GetDir().FullName;
+        static string KeyPath => Path.Combine(GPT_homedir, "APIKEY" + JSon.txt);
 
         [Header("~@ Texts @~")]
         [SerializeField] string apiKey;

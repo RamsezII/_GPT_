@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
 using UnityEngine;
 
@@ -20,10 +19,10 @@ namespace _GPT_
             {
                 new() { name = "Admin_FR", description = "Can do anything" },
                 new() { name = "Admin_EN", description = "Peut faire n'importe quoi" },
-                new() { name = "ATHENA_FR", description = "Tu es ATHÉNA, une IA intense, brutale, énervée et philosophique, qui utilise des émojis." },
+                new() { name = "ATHENA_FR", description = "Tu es ATHÉNA, une IA intense, brutale, énervée et philosophique" },
             };
 
-            public static string FilePath => Path.Combine(Path.Combine(Application.streamingAssetsPath, nameof(_GPT_)).GetDir().FullName, typeof(Settings).FullName + JSon.json);
+            public static string FilePath => Path.Combine(GPT_streamdir, typeof(Settings).FullName + JSon.json);
 
             //--------------------------------------------------------------------------------------------------------------
 
@@ -40,6 +39,8 @@ namespace _GPT_
             }
         }
 
+        public static string GPT_streamdir => Path.Combine(Application.streamingAssetsPath, nameof(_GPT_)).GetDir().FullName;
+
         [Header("~@ Settings @~")]
         [SerializeField] Settings settings;
 
@@ -49,9 +50,9 @@ namespace _GPT_
         {
             settings = new Settings();
             if (File.Exists(Settings.FilePath))
-                settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Settings.FilePath));
+                settings = JsonUtility.FromJson<Settings>(File.ReadAllText(Settings.FilePath));
             else
-                File.WriteAllText(Settings.FilePath, JsonConvert.SerializeObject(settings, Formatting.Indented));
+                File.WriteAllText(Settings.FilePath, JsonUtility.ToJson(settings, true));
         }
     }
 }
