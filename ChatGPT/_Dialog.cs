@@ -46,7 +46,7 @@ namespace _GPT_
 
             //----------------------------------------------------------------------------------------------------------
 
-            public Dialog(string role, string prompt)
+            public Dialog(string role)
             {
                 flags &= ~(Flags.Stdin | Flags.Killable);
 
@@ -56,30 +56,27 @@ namespace _GPT_
                     content = role,
                 });
 
-                openAIRequest.messages.Add(new Message
-                {
-                    role = "user",
-                    content = prompt,
-                });
-
-                NUCLEOR.instance.scheduler.AddRoutine(ESendRequest());
+                NUCLEOR.instance.scheduler.AddRoutine(ESendRequest(null));
             }
 
             //--------------------------------------------------------------------------------------------------------------
 
             public override void OnCmdLine(in LineParser line)
             {
-                openAIRequest.messages.Add(new Message
-                {
-                    role = "user",
-                    content = line.ReadAll(),
-                });
                 flags &= ~(Flags.Stdin | Flags.Killable);
-                NUCLEOR.instance.scheduler.AddRoutine(ESendRequest());
+                string prompt = line.ReadAll();
+                NUCLEOR.instance.scheduler.AddRoutine(ESendRequest(prompt));
             }
 
-            IEnumerator ESendRequest()
+            IEnumerator ESendRequest(string prompt)
             {
+                if (!string.IsNullOrWhiteSpace(prompt))
+                    openAIRequest.messages.Add(new Message
+                    {
+                        role = "user",
+                        content = prompt,
+                    });
+
                 string jsonString = JsonUtility.ToJson(openAIRequest, true);
 
                 using UnityWebRequest request = new("https://api.openai.com/v1/chat/completions", "POST")

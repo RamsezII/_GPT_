@@ -37,8 +37,8 @@ namespace _GPT_
                                 else if (settings.TryGetRole(role, out var roleInfos))
                                 {
                                     string prompt = line.ReadAll();
-                                    print($"envoi de la requête... {{ {nameof(role)}: \"{role}\", {nameof(prompt)}: \"{prompt}\" }}".ToSubLog());
-                                    Terminal.instance.commands.Add(new Dialog(roleInfos.description, prompt));
+                                    print($"starting {GetType().FullName} with {nameof(role)}: \"{role}\"".ToSubLog());
+                                    Terminal.instance.commands.Add(new Dialog(roleInfos.description));
                                 }
                                 else
                                     Debug.LogWarning($"Role not found: \"{role}\"");
