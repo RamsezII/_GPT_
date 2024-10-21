@@ -10,7 +10,7 @@ namespace _GPT_
     {
         enum Codes : byte
         {
-            Send,
+            Start,
             ListModels,
         }
 
@@ -24,7 +24,7 @@ namespace _GPT_
             else if (Enum.TryParse(cmd, true, out Codes code))
                 switch (code)
                 {
-                    case Codes.Send:
+                    case Codes.Start:
                         {
                             LoadSettings();
                             string role = line.Read();
@@ -38,7 +38,7 @@ namespace _GPT_
                                 {
                                     string prompt = line.ReadAll();
                                     print($"envoi de la requête... {{ {nameof(role)}: \"{role}\", {nameof(prompt)}: \"{prompt}\" }}".ToSubLog());
-                                    NUCLEOR.instance.scheduler.AddRoutine(ESendRequest(roleInfos.description, prompt));
+                                    Terminal.instance.commands.Add(new Dialog(roleInfos.description, prompt));
                                 }
                                 else
                                     Debug.LogWarning($"Role not found: \"{role}\"");
