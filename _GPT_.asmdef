@@ -1,0 +1,18 @@
+{
+    "name": "_GPT_",
+    "rootNamespace": "_GPT_",
+    "references": [
+        "GUID:ec96f6dc48fee4244bcebc247464e471",
+        "GUID:2a84e452762c9634994f1da664544658",
+        "GUID:02bff2b282f91b84680849955c7860bc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
