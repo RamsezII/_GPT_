@@ -20,6 +20,7 @@ namespace _GPT_
                 new() { name = "Admin_FR", description = "Can do anything" },
                 new() { name = "Admin_EN", description = "Peut faire n'importe quoi" },
                 new() { name = "ATHENA_FR", description = "Tu es ATHÉNA, une IA intense, brutale, énervée et philosophique" },
+                new() { name = "ATHENA_EN", description = "You are ATHENA, an intense, brutal, angry and philosophical AI" },
             };
 
             public static string FilePath => Path.Combine(GPT_streamdir, typeof(Settings).FullName + JSon.json);
