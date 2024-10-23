@@ -63,6 +63,8 @@ namespace _GPT_
 
             public override void OnCmdLine(in LineParser line)
             {
+                if (!line.IsExec)
+                    return;
                 flags &= ~(Flags.Stdin | Flags.Killable);
                 string prompt = line.ReadAll();
                 NUCLEOR.instance.scheduler.AddRoutine(ESendRequest(prompt));
