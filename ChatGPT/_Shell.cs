@@ -33,11 +33,11 @@ namespace _GPT_
                                 line.OnCpls(role, settings.roles.Select(r => r.name));
                             else if (line.IsExec)
                                 if (string.IsNullOrWhiteSpace(role))
-                                    Debug.LogWarning("Role not specified");
+                                    Debug.LogWarning("Role not specified", this);
                                 else if (settings.TryGetRole(role, out var roleInfos))
                                 {
                                     string prompt = line.ReadAll();
-                                    print($"starting {GetType().FullName} with {nameof(role)}: \"{role}\"".ToSubLog());
+                                    Debug.Log($"starting {GetType().FullName} with {nameof(role)}: \"{role}\"".ToSubLog(), this);
                                     Terminal.instance.commands.Add(new Dialog(roleInfos.description));
                                 }
                                 else

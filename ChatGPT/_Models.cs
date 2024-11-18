@@ -48,7 +48,7 @@ namespace _GPT_
                         Models.Model model = models.data[i];
                         log.AppendLine($"{model.id} ({model.owned_by})");
                     }
-                    print(log.ToString()[..^1]);
+                    Debug.Log(log.ToString()[..^1], this);
                 }
             }
         }
