@@ -40,7 +40,7 @@ namespace _GPT_
             }
         }
 
-        public static string GPT_streamdir => Path.Combine(Application.streamingAssetsPath, nameof(_GPT_)).GetDir().FullName;
+        public static string GPT_streamdir => Path.Combine(Application.streamingAssetsPath, nameof(_GPT_)).ForceDir().FullName;
 
         [Header("~@ Settings @~")]
         [SerializeField] Settings settings;
