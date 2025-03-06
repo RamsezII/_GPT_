@@ -70,7 +70,7 @@ namespace _GPT_
                 NUCLEOR.instance.scheduler.AddRoutine(ESendRequest(prompt));
             }
 
-            IEnumerator ESendRequest(string prompt)
+            IEnumerator<float> ESendRequest(string prompt)
             {
                 if (!string.IsNullOrWhiteSpace(prompt))
                     openAIRequest.messages.Add(new Message
@@ -90,12 +90,12 @@ namespace _GPT_
                 request.SetRequestHeader("Content-Type", "application/json");
                 request.SetRequestHeader("Authorization", "Bearer " + instance.apiKey);
 
-                UnityWebRequestAsyncOperation sending = request.SendWebRequest();
-                while (!sending.isDone)
+                UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+                while (!operation.isDone)
                 {
                     flags |= Flags.Status;
-                    status = $"{sending.GetType().FullName}... {Mathf.RoundToInt(100 * sending.progress)}%";
-                    yield return null;
+                    status = $"{operation.GetType().FullName}... {Mathf.RoundToInt(100 * operation.progress)}%";
+                    yield return operation.progress;
                 }
                 flags &= ~Flags.Status;
 

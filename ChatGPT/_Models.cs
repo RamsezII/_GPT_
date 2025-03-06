@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -22,7 +22,7 @@ namespace _GPT_
 
         //--------------------------------------------------------------------------------------------------------------
 
-        IEnumerator EListModels()
+        IEnumerator<float> EListModels()
         {
             using UnityWebRequest request = new("https://api.openai.com/v1/models", "GET")
             {
@@ -31,9 +31,9 @@ namespace _GPT_
 
             request.SetRequestHeader("Authorization", "Bearer " + apiKey);
 
-            UnityWebRequestAsyncOperation sending = request.SendWebRequest();
-            while (!sending.isDone)
-                yield return null;
+            UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+            while (!operation.isDone)
+                yield return operation.progress;
 
             if (request.result != UnityWebRequest.Result.Success)
                 Debug.LogWarning(request.error);
